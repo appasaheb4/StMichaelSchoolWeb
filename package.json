@@ -9,6 +9,7 @@
     "@types/react-redux": "^4.4.36",
     "@types/react-router-dom": "^4.3.1",
     "axios": "^0.18.0",
+    "cors": "^2.8.5",
     "mysql": "^2.16.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
@@ -21,7 +22,7 @@
     "client": "react-scripts start",
     "server": "node src/api/config/server.js",
     "dev": "concurrently --kill-others \"npm run server\" \"npm run client\"",
-    "start": "npm run client",
+    "start": "npm run client",  
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -39,9 +40,9 @@
     "@types/node": "^10.12.18",
     "concurrently": "^4.1.0"
   },
-  "proxy": "https://stmichaelschool.000webhostapp.com:5000",
+  "proxy": "https://stmichaelschool.herokuapp.com",
   "engines": {
     "node": "10.15.0",
     "npm": "6.4.1"
-  }  
+  }
 }

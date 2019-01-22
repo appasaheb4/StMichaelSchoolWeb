@@ -4,6 +4,8 @@ import axios from "axios";
 import "./LoginScree.css";
 import { any } from "prop-types";
 
+import { colors, apiary } from "../../api/constants/Constants";
+
 export default class LoginScreen extends Component<any, any> {
   constructor(props: any) {
     super(props);
@@ -14,23 +16,28 @@ export default class LoginScreen extends Component<any, any> {
   }
 
   componentDidMount() {
-    console.log("call");
-
     axios
-      .get("/api/getUserTypes")
+      .get(apiary.getUserTypes, {
+        method: 'GET',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      })
       .then(response => {
         let data = response.data;
         this.setState({ data: data.data });
-      })  
+      })
       .catch(function(error) {
         console.log(error);
       });
-  }  
+  }
 
   //TODO: func click_Login
 
-  click_Login(){
-    alert('hi')
+  click_Login() {
+    alert("hi");
   }
 
   render() {
@@ -38,7 +45,7 @@ export default class LoginScreen extends Component<any, any> {
       <div className="container">
         <div className="col-md-offset-4 col-md-4">
           <h1 style={{ textAlign: "center" }}>St Michael's school</h1>
-          <div className="well">  
+          <div className="well">
             <form onSubmit={this.click_Login.bind(this)}>
               <div className="form-group">
                 <select className="form-control browser-default custom-select">

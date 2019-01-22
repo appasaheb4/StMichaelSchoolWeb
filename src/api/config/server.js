@@ -1,4 +1,5 @@
 const express = require("express");
+var cors = require("cors");
 const path = require("path");
 const mysql = require("mysql");
 const app = express();
@@ -20,10 +21,10 @@ connection.connect(function(err) {
     return console.error("error: " + err.message);
   }
   console.log("Connected to the MySQL server.");
-});
-
-// Retrieve all todos
-app.get("/api/getUserTypes", function(req, res) {
+});   
+         
+// Retrieve all todos  
+app.get("/api/getUserTypes", cors(), function(req, res) {
   connection.query("SELECT * FROM tblUserTypes", function(
     error,
     results,
@@ -33,7 +34,7 @@ app.get("/api/getUserTypes", function(req, res) {
     return res.send({ data: results });
   });
 });
-  
+
 const port = process.env.PORT || 5000;
 app.listen(port);
 
