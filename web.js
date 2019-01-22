@@ -1,52 +1,40 @@
-var express = require("express");
-var mysql = require('mysql');
-var app = express();
-app.use(express.logger());
+const express = require("express");
+const path = require("path");
+const mysql = require("mysql");
+const app = express();
 
-var db_config = {
-    host: 'us-cdbr-east-04.cleardb.com',
-    user: 'b6d6c6e8740d20',
-    password: 'b3f75ada',
-    database: 'heroku_1daa39da0375291'
-};
+// Serve the static files from the React app
+app.use(express.static(path.join(__dirname, "client/build")));
 
-var connection;
-
-function handleDisconnect() {
-    console.log('1. connecting to db:');
-    connection = mysql.createConnection(db_config); // Recreate the connection, since
-													// the old one cannot be reused.
-
-    connection.connect(function(err) {              	// The server is either down
-        if (err) {                                     // or restarting (takes a while sometimes).
-            console.log('2. error when connecting to db:', err);
-            setTimeout(handleDisconnect, 1000); // We introduce a delay before attempting to reconnect,
-        }                                     	// to avoid a hot loop, and to allow our node script to
-    });                                     	// process asynchronous requests in the meantime.
-    											// If you're also serving http, display a 503 error.
-    connection.on('error', function(err) {
-        console.log('3. db error', err);
-        if (err.code === 'PROTOCOL_CONNECTION_LOST') { 	// Connection to the MySQL server is usually
-            handleDisconnect();                      	// lost due to either server restart, or a
-        } else {                                      	// connnection idle timeout (the wait_timeout
-            throw err;                                  // server variable configures this)
-        }
-    });
-}
-
-handleDisconnect();
-
-app.get('/', function(request, response) {
-    connection.query('SELECT * from t_users', function(err, rows, fields) {
-        if (err) {
-            console.log('error: ', err);
-            throw err;
-        }
-        response.send(['Hello World!!!! HOLA MUNDO!!!!', rows]);
-    });
+// connection configurations
+const connection = mysql.createConnection({
+  host: "db4free.net",
+  user: "stmichaelschool",
+  password: "developer",
+  database: "stmichaelschool"
 });
 
-var port = process.env.PORT || 5000;
-app.listen(port, function() {
-    console.log("Listening on " + port);
+// connect to database
+connection.connect(function(err) {
+  if (err) {
+    return console.error("error: " + err.message);
+  }
+  console.log("Connected to the MySQL server.");
 });
+
+// Retrieve all todos
+app.get("/api/getUserTypes", function(req, res) {
+  connection.query("SELECT * FROM tblUserTypes", function(
+    error,
+    results,
+    fields
+  ) {  
+    if (error) throw error;
+    return res.send({ data: results });
+  });
+});
+
+const port = process.env.PORT || 5000;
+app.listen(port);
+
+console.log("App is listening on port " + port);

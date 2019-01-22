@@ -39,5 +39,9 @@
     "@types/node": "^10.12.18",
     "concurrently": "^4.1.0"
   },     
-  "proxy": "https://stmichaelschool.000webhostapp.com:5000"
+  "proxy": "https://stmichaelschool.000webhostapp.com:5000",
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.2.x"
+  }
 }
