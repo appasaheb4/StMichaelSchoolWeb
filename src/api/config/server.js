@@ -6,7 +6,7 @@ const app = express();
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, "client/build")));
-
+app.use(cors());   
 // connection configurations
 const connection = mysql.createConnection({
   host: "db4free.net",
@@ -24,7 +24,7 @@ connection.connect(function(err) {
 });   
          
 // Retrieve all todos  
-app.get("/api/getUserTypes", cors(), function(req, res) {
+app.get("/api/getUserTypes", function(req, res) {
   connection.query("SELECT * FROM tblUserTypes", function(
     error,
     results,
